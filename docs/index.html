@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="1337_Pete - SUPREME PLUGIN ARCHITECT AND TERMINAL WIZARD">
+    <meta name="keywords" content="1337_Pete, CLAUDE CODE, PLUGINS, STATUSLINE, TERMINAL, HACKING, 1337">
+    <meta name="description" content="1337_PETES OFFICAL PLUGIN EMPORIUM - HOME OF TEH WORLDS BEST CLAUDE CODE PLUGINS!!!!">
+    <title>~*~*~ 1337_PETE'S PLUGINZ EMPORIUM ~*~*~ [BEST VIEWED IN LYNX] ~*~*~</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000000;
+            color: #00FF00;
+            font-family: "Comic Sans MS", "Papyrus", "Chiller", cursive;
+            cursor: crosshair;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* MATRIX RAIN */
+        .matrix-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            animation: matrix-fall linear infinite;
+            color: #00FF00;
+            text-shadow: 0 0 8px #00FF00;
+        }
+
+        @keyframes matrix-fall {
+            to { transform: translateY(250vh); }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 25px; }
+        ::-webkit-scrollbar-track { background: #FF00FF; border: 3px ridge #00FF00; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(#FF0000, #00FF00, #0000FF); border: 2px outset #FFFF00; }
+
+        /* BLINK & ANIMATIONS */
+        @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        @keyframes seizure { 0% { background: #FF0000; } 25% { background: #00FF00; } 50% { background: #0000FF; } 75% { background: #FFFF00; } 100% { background: #FF00FF; } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes rainbow-text { 0% { color: #FF0000; } 20% { color: #FF7F00; } 40% { color: #FFFF00; } 60% { color: #00FF00; } 80% { color: #0000FF; } 100% { color: #FF00FF; } }
+        @keyframes float-crazy { 0% { transform: translate(0,0) rotate(0deg); } 25% { transform: translate(200px,150px) rotate(90deg); } 50% { transform: translate(-150px,300px) rotate(180deg); } 75% { transform: translate(100px,-200px) rotate(270deg); } 100% { transform: translate(0,0) rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        @keyframes glitch-skew { 0% { transform: skew(0deg); } 20% { transform: skew(-2deg); } 40% { transform: skew(3deg); } 60% { transform: skew(-1deg); } 80% { transform: skew(2deg); } 100% { transform: skew(0deg); } }
+        @keyframes scanline { 0% { top: -5px; } 100% { top: 100%; } }
+
+        .blink { animation: blink 0.5s infinite; }
+        .seizure-bg { animation: seizure 0.15s infinite; }
+        .spin { animation: spin 2s linear infinite; }
+        .bounce { animation: bounce 0.6s infinite; }
+        .rainbow { animation: rainbow-text 2s infinite; }
+
+        /* TOP MARQUEE */
+        .marquee-top {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: #FF0000; color: #FFFF00;
+            font-size: 26px; padding: 8px 0;
+            z-index: 9999; border-bottom: 8px ridge #00FF00;
+            text-shadow: 2px 2px #000000;
+            font-weight: bold;
+        }
+
+        .marquee-bottom {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #0000AA; color: #00FF00;
+            font-size: 20px; padding: 12px 0;
+            z-index: 9998; border-top: 6px groove #FF00FF;
+        }
+
+        /* MAIN CONTAINER */
+        .main-container {
+            max-width: 950px;
+            margin: 90px auto 80px;
+            position: relative;
+        }
+
+        /* SCANLINE OVERLAY */
+        .scanlines {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.15) 2px,
+                rgba(0,0,0,0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 9000;
+        }
+
+        .scanline-bar {
+            position: fixed; left: 0;
+            width: 100%; height: 5px;
+            background: rgba(0, 255, 0, 0.1);
+            z-index: 9001;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+
+        /* ASCII HEADER - glitch system from deployment page */
+        .ascii-header {
+            text-align: left;
+            margin: 40px auto 10px;
+            color: #00FF00;
+            font-size: 10px;
+            line-height: 1;
+            font-family: 'Courier New', 'Consolas', monospace;
+            white-space: pre;
+            animation: flicker 2s infinite;
+            text-shadow: 0 0 10px currentColor;
+            display: table;
+            letter-spacing: 0;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            75% { opacity: 0.9; }
+        }
+
+        .main-title {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .glitch-title {
+            font-size: 10px;
+            font-weight: bold;
+            position: relative;
+            color: #00FF00;
+            letter-spacing: 0;
+            text-shadow:
+                1px 1px 0 #FF00FF,
+                -1px -1px 0 #00FFFF,
+                0 0 20px #00FF00;
+        }
+
+        .ascii-title {
+            font-size: 10px;
+            line-height: 1;
+            font-family: 'Courier New', 'Consolas', monospace;
+            white-space: pre;
+            display: inline-block;
+            text-transform: none;
+            letter-spacing: 0;
+            margin: 0 auto;
+        }
+
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ascii-title::before,
+        .ascii-title::after {
+            content: " ██╗ ██████╗ ██████╗ ███████╗   ██████╗ ███████╗████████╗███████╗\A███║ ╚════██╗╚════██╗╚════██║   ██╔══██╗██╔════╝╚══██╔══╝██╔════╝\A╚██║  █████╔╝ █████╔╝    ██╔╝   ██████╔╝█████╗     ██║   █████╗   \A ██║  ╚═══██╗ ╚═══██╗   ██╔╝    ██╔═══╝ ██╔══╝     ██║   ██╔══╝   \A ██║ ██████╔╝██████╔╝   ██║ ██╗ ██║     ███████╗   ██║   ███████╗\A ╚═╝ ╚═════╝ ╚═════╝    ╚═╝ ╚═╝ ╚═╝     ╚══════╝   ╚═╝   ╚══════╝";
+            white-space: pre;
+        }
+
+        .glitch-title::before {
+            animation: glitch-1 0.5s infinite;
+            color: #00FFFF;
+            z-index: -1;
+        }
+
+        .glitch-title::after {
+            animation: glitch-2 0.5s infinite;
+            color: #FF00FF;
+            z-index: -2;
+        }
+
+        /* MEGA TITLE */
+        .mega-title {
+            font-family: "Impact", "Arial Black", sans-serif;
+            font-size: 64px;
+            text-align: center;
+            color: #00FF00;
+            text-shadow:
+                4px 4px 0 #FF0000,
+                8px 8px 0 #0000FF,
+                12px 12px 0 #FFFF00,
+                16px 16px 8px #000000;
+            transform: perspective(500px) rotateY(8deg) rotateX(-5deg);
+            margin: 40px 0 20px;
+            letter-spacing: 6px;
+            animation: glitch-skew 3s infinite;
+        }
+
+        .mega-title .underscore {
+            animation: blink 1s infinite;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 22px;
+            color: #FF00FF;
+            text-shadow: 2px 2px #000;
+            margin-bottom: 30px;
+        }
+
+        /* FRAME STYLE BOXES */
+        .frame-box {
+            background: #0a0a2e;
+            border: 10px ridge #FF00FF;
+            margin: 30px 15px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 8px 8px 0 rgba(0,255,0,0.3);
+        }
+
+        .frame-box::after {
+            content: "";
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,0,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* PETE BOXES */
+        .pete-box {
+            background: linear-gradient(135deg, #1a0030, #000a1a);
+            border: 8px double #00FF00;
+            margin: 25px 15px;
+            padding: 20px;
+            position: relative;
+            font-size: 18px;
+            color: #00FFFF;
+            overflow: visible;
+        }
+
+        .pete-box::before {
+            content: "NEW!!!";
+            position: absolute; top: -18px; right: 20px;
+            background: #FF0000; color: #FFFF00;
+            padding: 4px 14px;
+            border: 4px ridge #00FF00;
+            transform: rotate(18deg);
+            font-size: 20px; font-weight: bold;
+            animation: blink 0.25s infinite;
+        }
+
+        /* STEP BOXES */
+        .deploy-step {
+            background: linear-gradient(135deg, #0a001a, #001a0a, #00001a);
+            border: 12px ridge #FFFF00;
+            margin: 35px 15px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .step-title {
+            font-family: "Impact", "Arial Black", sans-serif;
+            font-size: 28px;
+            color: #000;
+            background: #00FF00;
+            padding: 10px 15px;
+            text-align: center;
+            border: 4px dashed #FF00FF;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        /* CODE BLOCKS */
+        .code-block {
+            background: #000000;
+            color: #00FF00;
+            border: 8px groove #00FFFF;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: "Courier New", monospace;
+            position: relative;
+            font-size: 16px;
+            overflow-x: auto;
+            text-shadow: 0 0 8px rgba(0,255,0,0.5);
+        }
+
+        .code-block::before {
+            content: attr(data-label);
+            position: absolute; top: -28px; left: 15px;
+            background: #FFFF00; color: #FF0000;
+            padding: 4px 10px; font-weight: bold;
+            border: 3px solid #00FF00;
+            font-family: "Comic Sans MS", cursive;
+            animation: shake 0.3s infinite;
+        }
+
+        .code-block code {
+            white-space: pre;
+            display: block;
+        }
+
+        /* COPY BUTTONS */
+        .copy-btn {
+            position: absolute; top: 8px; right: 8px;
+            background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 50%, #1a1a1a 100%);
+            border: 3px outset #00FF00;
+            color: #00FF00;
+            padding: 8px 18px;
+            cursor: pointer;
+            font-weight: bold; font-size: 14px;
+            font-family: "Press Start 2P", "Courier New", monospace;
+            box-shadow: 2px 2px 0 #000;
+            text-shadow: 0 0 5px #00FF00;
+        }
+
+        .copy-btn:active { border-style: inset; transform: translate(1px, 1px); }
+        .copy-btn:hover { background: #00FF00; color: #000; }
+
+        /* PLUGIN CARD */
+        .plugin-card {
+            background: linear-gradient(135deg, #001a00 0%, #000a1a 50%, #0a001a 100%);
+            border: 6px solid #00FF00;
+            border-radius: 0;
+            margin: 25px 15px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,255,0,0.2), inset 0 0 30px rgba(0,255,0,0.05);
+        }
+
+        .plugin-card-header {
+            background: linear-gradient(90deg, #00FF00, #00FFFF, #FF00FF, #00FF00);
+            background-size: 200% 100%;
+            animation: gradient-shift 3s linear infinite;
+            padding: 15px 20px;
+            color: #000;
+            font-family: "Impact", sans-serif;
+            font-size: 32px;
+            letter-spacing: 3px;
+            text-align: center;
+            border-bottom: 4px solid #000;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .plugin-card-body {
+            padding: 25px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: rgba(0,255,0,0.05);
+            border: 3px solid #00FF00;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            background: rgba(0,255,0,0.15);
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 0 20px rgba(0,255,0,0.3);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .feature-name {
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* STATUSLINE PREVIEW */
+        .statusline-preview {
+            background: #1a1a1a;
+            border: 3px solid #333;
+            border-radius: 4px;
+            padding: 8px 15px;
+            margin: 20px 0;
+            font-family: "Courier New", monospace;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #888;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .statusline-preview .branch { color: #FF6B6B; }
+        .statusline-preview .bar-container {
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .statusline-preview .bar {
+            display: inline-block; width: 120px; height: 10px;
+            background: #333; border-radius: 2px; overflow: hidden;
+            position: relative;
+        }
+        .statusline-preview .bar-fill {
+            height: 100%; width: 42%;
+            background: linear-gradient(90deg, #00FF00, #FFFF00);
+            border-radius: 2px;
+            animation: bar-pulse 3s ease-in-out infinite;
+        }
+        @keyframes bar-pulse {
+            0%, 100% { width: 42%; } 50% { width: 48%; }
+        }
+        .statusline-preview .tokens { color: #00FFFF; }
+        .statusline-preview .model { color: #FF00FF; }
+        .statusline-preview .cost { color: #FFFF00; }
+
+        /* TESTIMONIALS */
+        .testimonial {
+            background: linear-gradient(135deg, #1a000a, #0a001a);
+            border: 6px dashed #FF00FF;
+            padding: 20px;
+            margin: 15px 0;
+            font-style: italic;
+            position: relative;
+            color: #FF00FF;
+        }
+
+        .testimonial::before {
+            content: attr(data-stars);
+            position: absolute; top: -12px; left: 15px;
+            font-size: 24px; font-style: normal;
+        }
+
+        .testimonial .author {
+            display: block; margin-top: 10px;
+            color: #00FFFF; font-style: normal;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+        }
+
+        /* COMING SOON */
+        .coming-soon {
+            background: repeating-linear-gradient(
+                45deg,
+                #000 0px, #000 20px,
+                #1a1a00 20px, #1a1a00 40px
+            );
+            border: 10px ridge #FFFF00;
+            padding: 30px;
+            margin: 30px 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .coming-soon h2 {
+            font-family: "Impact", sans-serif;
+            font-size: 42px;
+            color: #FFFF00;
+            text-shadow: 3px 3px 0 #FF0000, 6px 6px 0 #000;
+            margin-bottom: 15px;
+        }
+
+        .coming-soon-item {
+            display: inline-block;
+            background: rgba(255,255,0,0.1);
+            border: 3px solid #FFFF00;
+            padding: 15px 25px;
+            margin: 10px;
+            color: #FFFF00;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .coming-soon-item::after {
+            content: "???";
+            position: absolute; top: -10px; right: -10px;
+            background: #FF0000; color: #FFF;
+            padding: 2px 6px; font-size: 12px;
+            border-radius: 50%;
+            animation: blink 0.8s infinite;
+        }
+
+        /* GUESTBOOK */
+        .guestbook {
+            background: linear-gradient(135deg, #1a0020, #000a1a);
+            border: 12px groove #FF00FF;
+            padding: 30px;
+            margin: 30px 15px;
+            text-align: center;
+        }
+
+        .guestbook h2 {
+            font-size: 38px; color: #FF00FF;
+            text-shadow: 3px 3px #000;
+            margin-bottom: 15px;
+        }
+
+        .guestbook input, .guestbook textarea {
+            background: #000; color: #00FF00;
+            border: 3px inset #00FF00;
+            font-family: "Courier New", monospace;
+            font-size: 16px; padding: 10px;
+            margin: 8px;
+        }
+
+        .guestbook button {
+            font-size: 24px; padding: 15px 30px;
+            background: #00FF00; color: #000;
+            border: 4px outset #00FF00;
+            font-family: "Impact", sans-serif;
+            cursor: pointer; letter-spacing: 3px;
+        }
+
+        .guestbook button:hover { background: #FF00FF; color: #FFF; }
+
+        /* WEBRING / FOOTER */
+        .webring {
+            background: #000;
+            border: 8px groove #00FF00;
+            padding: 25px;
+            margin: 30px 15px;
+            text-align: center;
+            font-family: "Courier New", monospace;
+            color: #00FF00;
+        }
+
+        .webring a {
+            color: #00FFFF;
+            text-decoration: underline;
+        }
+
+        .footer-box {
+            background: #000;
+            border: 15px ridge #FF00FF;
+            padding: 40px;
+            margin: 30px 15px;
+            text-align: center;
+            font-family: "Courier New", monospace;
+        }
+
+        .visitor-counter {
+            background: #000;
+            color: #00FF00;
+            font-size: 28px;
+            padding: 15px 25px;
+            border: 6px ridge #00FF00;
+            display: inline-block;
+            margin: 15px;
+            text-shadow: 0 0 10px #00FF00;
+        }
+
+        .award-badge {
+            display: inline-block;
+            width: 88px; height: 31px;
+            margin: 8px;
+            border: 2px solid #000;
+            animation: pulse 0.8s infinite;
+        }
+
+        /* ASCII ART */
+        .ascii-art {
+            font-family: "Courier New", monospace;
+            font-size: 11px;
+            color: #00FF00;
+            background: #000;
+            padding: 15px;
+            white-space: pre;
+            overflow-x: auto;
+            border: 4px solid #00FF00;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(0,255,0,0.5);
+            line-height: 1.2;
+        }
+
+        /* FLOATING ELEMENTS */
+        .floater {
+            position: fixed;
+            width: 60px; height: 60px;
+            font-size: 40px;
+            animation: float-crazy 25s infinite;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* FAKE POPUP */
+        .fake-popup {
+            position: fixed;
+            background: #c0c0c0;
+            border: 3px outset #fff;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+            z-index: 1000;
+            font-family: "MS Sans Serif", "Arial", sans-serif;
+            display: none;
+        }
+
+        .fake-popup.visible { display: block; }
+
+        .popup-titlebar {
+            background: linear-gradient(to right, #000080, #1084D0);
+            color: #fff; padding: 3px 6px;
+            font-weight: bold; font-size: 13px;
+            display: flex; justify-content: space-between;
+            cursor: default;
+        }
+
+        .popup-titlebar .close-btn {
+            background: #c0c0c0; border: 2px outset #fff;
+            color: #000; font-weight: bold;
+            width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 11px;
+        }
+
+        .popup-body {
+            padding: 20px; background: #c0c0c0;
+            color: #000; text-align: center;
+        }
+
+        .popup-body button {
+            margin: 8px 5px 0;
+            padding: 4px 20px;
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            font-family: "MS Sans Serif", sans-serif;
+            cursor: pointer;
+        }
+
+        /* MOUSE TRAIL */
+        .mouse-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            font-size: 18px;
+            animation: trail-fade 1s forwards;
+        }
+
+        @keyframes trail-fade {
+            to { opacity: 0; transform: translateY(-25px) scale(0.5); }
+        }
+
+        /* CONSTRUCTION BANNER */
+        .construction {
+            background: repeating-linear-gradient(
+                45deg,
+                #FFFF00 0px, #FFFF00 15px,
+                #000 15px, #000 30px
+            );
+            padding: 12px;
+            text-align: center;
+            margin: 20px 15px;
+        }
+
+        .construction-inner {
+            background: #000;
+            padding: 10px 20px;
+            display: inline-block;
+            color: #FFFF00;
+            font-size: 24px;
+            font-family: "Impact", sans-serif;
+            letter-spacing: 5px;
+        }
+
+        /* RESPONSIVE-ISH */
+        @media (max-width: 768px) {
+            .mega-title { font-size: 36px; letter-spacing: 2px; }
+            .plugin-card-header { font-size: 22px; }
+            .feature-grid { grid-template-columns: 1fr 1fr; }
+            .frame-left { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- CRT SCANLINES -->
+    <div class="scanlines"></div>
+    <div class="scanline-bar"></div>
+
+    <!-- MATRIX BACKGROUND -->
+    <div class="matrix-bg" id="matrix-container"></div>
+
+    <!-- FLOATING ELEMENTS -->
+    <div class="floater" style="top: 120px; left: 30px;">🔌</div>
+    <div class="floater" style="top: 250px; right: 60px; animation-delay: 7s;">💻</div>
+    <div class="floater" style="bottom: 200px; left: 150px; animation-delay: 13s;">⚡</div>
+
+    <!-- TOP MARQUEE -->
+    <div class="marquee-top">
+        <marquee behavior="alternate" scrollamount="12">
+            ⚡ WELCOM 2 1337_PETE'S PLUGINZ EMPORIUM ⚡ HOME OF TEH WORLDS BEST CLAUDE CODE PLUGINS ⚡ OVER 9000 INSTALLS ⚡ BEST VIEWED WITH UR EYES ⚡ NOW WITH 200% MORE STATUSLINE ⚡
+        </marquee>
+    </div>
+
+    <!-- BOTTOM MARQUEE -->
+    <div class="marquee-bottom">
+        <marquee direction="right" scrollamount="8">
+            *** 1337_PETE SEZ: ALWAYS INSTALL PLUGINS FROM TRUSTED SOURCES (LIKE ME) *** MY STATUSLINE HAS MORE FEATURES THEN UR WHOLE TERMINAL *** TYPE "pete" 4 A SURPRISE ***
+        </marquee>
+    </div>
+
+    <!-- FAKE POPUP -->
+    <div class="fake-popup" id="popup1" style="top: 180px; right: 80px; transform: rotate(-3deg);">
+        <div class="popup-titlebar">
+            <span>⚠️ IMPORTANT NOTICE</span>
+            <div class="close-btn" onclick="closePopup('popup1')">X</div>
+        </div>
+        <div class="popup-body">
+            UR TERMINAL IS LOOKING<br>DANGEROUSLY PLAIN!!!<br>
+            INSTALL 1337_PETE'S<br>STATUSLINE 2 FIX IT!!!!<br>
+            <button onclick="closePopup('popup1')">OK I WILL</button>
+            <button onclick="closePopup('popup1')">OK I WILL (but louder)</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- ASCII ART HEADER with glitch effect -->
+        <div class="main-title">
+<pre class="glitch-title ascii-title" data-text="1337_PETE PLUGINZ">
+ ██╗ ██████╗ ██████╗ ███████╗   ██████╗ ███████╗████████╗███████╗
+███║ ╚════██╗╚════██╗╚════██║   ██╔══██╗██╔════╝╚══██╔══╝██╔════╝
+╚██║  █████╔╝ █████╔╝    ██╔╝   ██████╔╝█████╗     ██║   █████╗  
+ ██║  ╚═══██╗ ╚═══██╗   ██╔╝    ██╔═══╝ ██╔══╝     ██║   ██╔══╝  
+ ██║ ██████╔╝██████╔╝   ██║ ██╗ ██║     ███████╗   ██║   ███████╗
+ ╚═╝ ╚═════╝ ╚═════╝    ╚═╝ ╚═╝ ╚═╝     ╚══════╝   ╚═╝   ╚══════╝
+       ═══════  P L U G I N Z   E M P O R I U M  ═══════</pre>
+        </div>
+
+        <!-- MEGA TITLE -->
+        <h1 class="mega-title">
+            1337_PETE'S<br>
+            PLUGINZ<br>
+            EMPORIUM<span class="underscore">_</span>
+        </h1>
+
+        <p class="subtitle">
+            <span class="rainbow">~*~ PURVEYORS OF FINE CLAUDE CODE PLUGINS SINCE 2026 ~*~</span>
+        </p>
+
+        <!-- CONSTRUCTION BANNER -->
+        <div class="construction">
+            <div class="construction-inner">
+                🚧 UNDER CONSTRUCTION 🚧 MORE PLUGINZ COMING SOON 🚧
+            </div>
+        </div>
+
+        <!-- INTRO -->
+        <div class="pete-box">
+            <marquee behavior="alternate" scrollamount="12" style="font-size: 22px; color: #00FF00; margin-bottom: 10px;">
+                HELLO!!!! MY NAEM IS 1337_PETE AND I MAKE TEH BEST PLUGINS 4 CLAUDE CODE!!!!
+            </marquee>
+            <p>ok so i was sitting at my computer one day (DUAL MONITORS btw) and i was like "wow my claude code terminal looks SO BORING" and then i was like "I WILL FIX THIS WITH MY 1337 CODING SKILLS" and now i have TEH BEST STATUSLINE IN TEH ENTIRE WORLD!!!!</p>
+            <p class="blink" style="font-size: 24px; color: #FF0000; margin-top: 10px;">U CAN HAVE IT 2!!!! JUST INSTALL MY PLUGINS!!!!!</p>
+        </div>
+
+        <!-- ═══════════════════════════════════ -->
+        <!-- STATUSLINE PLUGIN CARD -->
+        <!-- ═══════════════════════════════════ -->
+
+        <div class="plugin-card">
+            <div class="plugin-card-header">
+                ⚡ STATUSLINE ⚡ THE PLUGIN THAT CHANGES EVERYTHING
+            </div>
+            <div class="plugin-card-body">
+
+                <div class="pete-box" style="border-color: #00FFFF;">
+                    <p style="font-size: 20px;">BEHOLD!!!! teh most ADVANCED statusline EVER CREATED 4 claude code!!! it shows u EVERYTHING u need 2 know about ur session and it looks AMAZING (unlike ur boring default terminal lol)</p>
+                </div>
+
+                <!-- LIVE PREVIEW -->
+                <h3 style="color: #FFFF00; font-family: Impact; font-size: 24px; text-align: center; margin: 20px 0 10px;">
+                    ↓↓↓ ACTUAL PREVIEW (NOT FAKE I PROMISE) ↓↓↓
+                </h3>
+                <div class="statusline-preview">
+                    <span><span class="branch">main</span> | <span class="model">opus-4</span></span>
+                    <span class="bar-container">
+                        ctx: <span class="bar"><span class="bar-fill"></span></span> <span class="tokens">42%</span>
+                    </span>
+                    <span><span class="tokens">84k/200k</span> tok</span>
+                    <span class="cost">$0.42</span>
+                </div>
+                <p style="text-align: center; color: #666; font-size: 12px; font-family: monospace; margin-top: 5px;">^ actual statusline running in ur terminal (artist rendition)</p>
+
+                <!-- FEATURES -->
+                <h3 style="color: #00FF00; font-family: Impact; font-size: 28px; text-align: center; margin: 25px 0 15px; letter-spacing: 5px;">
+                    FEATURE LIST (ALL OF THEM R AMAZING)
+                </h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <span class="feature-name">CONTEXT WINDOW<br>PROGRESS BAR</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔢</span>
+                        <span class="feature-name">TOKEN COUNT<br>(IN/OUT/TOTAL)</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🌿</span>
+                        <span class="feature-name">GIT BRANCH<br>& STATUS</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span class="feature-name">COLORBLIND-SAFE<br>COLORS</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">💰</span>
+                        <span class="feature-name">SESSION COST<br>TRACKING</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🤖</span>
+                        <span class="feature-name">MODEL NAME<br>DISPLAY</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════ -->
+        <!-- INSTALLATION -->
+        <!-- ═══════════════════════════════════ -->
+
+        <div class="deploy-step">
+            <div class="step-title seizure-bg">HOW 2 INSTALL (ITS SO EASY EVEN UR MOM COULD DO IT)</div>
+
+            <div class="pete-box">
+                <p>ok so installing my plugins is SUPER EASY!!! u just need 2 run ONE COMMAND and then u will have TEH BEST STATUSLINE IN TEH WORLD!!!! i spent OVER 9000 HOURS making this so u better appreciate it!!!!</p>
+            </div>
+
+            <h3 style="color: #00FFFF; font-family: Impact; font-size: 22px; margin: 15px 0 10px; text-align: center;">
+                STEP 1: ADD TEH MARKETPLACE
+            </h3>
+            <div class="code-block" data-label="COPY THIS OR ELSE!!!!">
+                <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                <code>claude plugins add privitera/ppplugins</code>
+            </div>
+
+            <h3 style="color: #00FFFF; font-family: Impact; font-size: 22px; margin: 20px 0 10px; text-align: center;">
+                STEP 2: ENABLE TEH STATUSLINE
+            </h3>
+            <div class="code-block" data-label="DO IT NOW!!!!">
+                <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                <code>/statusline:setup</code>
+            </div>
+
+            <h3 style="color: #00FFFF; font-family: Impact; font-size: 22px; margin: 20px 0 10px; text-align: center;">
+                STEP 3: THERE IS NO STEP 3 UR DONE!!!!
+            </h3>
+
+            <div style="background: #001a00; border: 5px dashed #00FF00; padding: 15px; margin: 15px 0; text-align: center;">
+                <span class="blink" style="font-size: 24px; color: #00FF00;">✅ THATS IT!!! UR TERMINAL IS NOW 1000% BETTER!!!!</span>
+            </div>
+        </div>
+
+        <!-- ONE-LINER FOR EXPERTS -->
+        <div class="deploy-step" style="border-color: #FF0000;">
+            <div class="step-title seizure-bg">⚠️ ONE COMMAND 2 RULE THEM ALL (4 EXPARTS ONLY!!!1) ⚠️</div>
+            <div class="pete-box" style="border-color: #FF0000;">
+                <p style="font-size: 24px; color: #FF0000;" class="blink">⚠️ DANGER ZONE ⚠️</p>
+                <p>OK SO THIS IS 4 PPL WHO R ALREADY 1337 HACKERS AND DONT NEED INSTRUCTIONS!!! this command does EVERYTHING IN ONE LINE!!! its like a CHEAT CODE but 4 CLAUDE!!!</p>
+                <p>I INVENTED THIS COMMAND WHEN I WAS ONLY 5 YEARS OLD!!! my teacher was like "1337_PETE HOW R U SO SMART" and i was like "I JUST DOWNLOAD MORE BRAIN CELLS FROM TEH INTERNET"</p>
+            </div>
+            <div class="code-block" data-label="GODMODE ACTIVATE!!!!">
+                <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                <code>claude plugins marketplace add privitera/ppplugins && claude plugins install statusline@ppplugins && claude "/statusline:setup"</code>
+            </div>
+            <marquee behavior="alternate" scrollamount="20" style="font-size: 28px; color: #FF0000; background: rgba(255,255,0,0.1); padding: 15px; margin-top: 15px; border: 3px solid #FF0000;">
+                ⚡⚡⚡ MAXIMUM OVERDRIVE ⚡⚡⚡ USE AT UR OWN RISK ⚡⚡⚡ NOT RESPONSIBLE 4 EXPLOSIONS ⚡⚡⚡
+            </marquee>
+        </div>
+
+        <!-- ═══════════════════════════════════ -->
+        <!-- TESTIMONIALS -->
+        <!-- ═══════════════════════════════════ -->
+
+        <div class="frame-box">
+            <h2 style="text-align: center; font-size: 32px; color: #FF00FF; font-family: Impact; margin-bottom: 20px;" class="rainbow">
+                WHAT PPL R SAYING ABOUT 1337_PETE'S PLUGINZ
+            </h2>
+
+            <div class="testimonial" data-stars="⭐⭐⭐⭐⭐">
+                <p>"i installed 1337_pete's statusline and my code IMMEDIATELY got 47% better!!! my boss gave me a raise and my cat started respecting me!!!! 10/10 would install again"</p>
+                <span class="author">— xX_TERMINAL_WIZARD_Xx</span>
+            </div>
+
+            <div class="testimonial" data-stars="⭐⭐⭐⭐⭐" style="border-color: #00FFFF;">
+                <p>"before this plugin i was just staring at a BORING terminal like a PEASANT. now i can see my token count AND my git branch at teh same time. i feel like a REAL hacker!!! the context window bar saved my life (i was about 2 run out of tokens and DIDNT EVEN KNOW)"</p>
+                <span class="author">— cl4ud3_m4x1m1z3r_69</span>
+            </div>
+
+            <div class="testimonial" data-stars="⭐⭐⭐⭐⭐" style="border-color: #00FF00;">
+                <p>"1337_pete is a VISIONARY and a GENIUS. the colorblind-safe palette shows he cares about ALL hackers equally. truly the plugin of our generation"</p>
+                <span class="author">— accessible_andy</span>
+            </div>
+
+            <div class="testimonial" data-stars="⭐⭐⭐⭐⭐" style="border-color: #FFFF00;">
+                <p>"i showed my terminal 2 my girlfriend (she lives in canada u dont know her) and she said 'wow ur statusline is so cool' and then she proposed 2 me on teh spot"</p>
+                <span class="author">— d3finitely_real_gf</span>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════ -->
+        <!-- COMING SOON -->
+        <!-- ═══════════════════════════════════ -->
+
+        <div class="coming-soon">
+            <h2 class="blink">🚀 COMING SOON 2 TEH EMPORIUM 🚀</h2>
+            <p style="color: #FFFF00; font-size: 18px; margin-bottom: 15px;">1337_PETE IS ALWAYS WORKING ON NEW PLUGINZ (I NEVER SLEEP)</p>
+
+            <div class="coming-soon-item">
+                🎵 SOUND EFFECTS<br>
+                <small>beeps and boops when claude thinks</small>
+            </div>
+            <div class="coming-soon-item">
+                🎨 THEME PACK<br>
+                <small>make ur terminal BEAUTIFUL</small>
+            </div>
+            <div class="coming-soon-item">
+                📊 ANALYTICS<br>
+                <small>how many tokens did u waste today</small>
+            </div>
+            <div class="coming-soon-item">
+                🏆 ACHIEVEMENTS<br>
+                <small>gamify ur coding sessions</small>
+            </div>
+
+            <p style="color: #888; margin-top: 20px; font-family: monospace;">
+                (suggestions welcome - i read all my fan mail)
+            </p>
+        </div>
+
+        <!-- ═══════════════════════════════════ -->
+        <!-- GUESTBOOK -->
+        <!-- ═══════════════════════════════════ -->
+
+        <div class="guestbook">
+            <h2 class="blink">📝 SIGN MY GUESTBOOK!!! 📝</h2>
+            <p style="color: #FF00FF; margin-bottom: 15px;">B TEH NEXT 2 SIGN!!! (only 31337 ppl have signed so far)</p>
+            <form onsubmit="submitGuestbook(event)">
+                <input type="text" placeholder="UR HACKER NAME" style="width: 250px;" id="gb-name">
+                <br>
+                <textarea placeholder="TELL ME HOW COOL MY PLUGINS R" rows="4" cols="45" id="gb-msg"></textarea>
+                <br>
+                <button type="submit">SUBMIT 2 TEH BOOK</button>
+            </form>
+            <div id="gb-response" style="margin-top: 15px; display: none;"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════ -->
+        <!-- WEBRING -->
+        <!-- ═══════════════════════════════════ -->
+
+        <div class="webring">
+            <h3 class="blink" style="margin-bottom: 10px;">1337_PETE IS PART OF TEH ELITE PLUGIN DEVELOPER WEBRING</h3>
+            <p>[&lt;&lt; PREV: bob's vim colorschemes] [<a href="#" onclick="return false;">RANDOM</a>] [NEXT: hacker_dave's tmux themes &gt;&gt;]</p>
+            <br>
+            <p>RING MEMBER SINCE: 2026</p>
+            <p>RING RANK: SUPREME PLUGIN OVERLORD</p>
+        </div>
+
+        <!-- ═══════════════════════════════════ -->
+        <!-- FOOTER -->
+        <!-- ═══════════════════════════════════ -->
+
+        <div class="footer-box">
+            <div class="visitor-counter blink" id="visitor-counter">
+                VISITORS: 0031337
+            </div>
+            <br><br>
+
+            <!-- AWARD BADGES -->
+            <div class="award-badge" style="background: linear-gradient(45deg, #FF0000, #00FF00);"></div>
+            <div class="award-badge" style="background: linear-gradient(45deg, #00FF00, #0000FF);"></div>
+            <div class="award-badge" style="background: linear-gradient(45deg, #FFFF00, #FF00FF);"></div>
+            <div class="award-badge" style="background: linear-gradient(45deg, #00FFFF, #FF0000);"></div>
+            <br>
+            <p style="color: #FFFF00; font-size: 12px; margin: 10px 0;">BEST PLUGIN SITE 2026 | COOLEST HACKER AWARD | MOST BLINKS PER PAGE</p>
+
+            <br>
+            <p style="color: #00FF00; font-size: 18px;" class="blink">BEST VIEWED WITH:</p>
+            <p style="color: #888;">NETSCAPE NAVIGATOR 4.0 OR A TERMINAL WITH 256 COLORS</p>
+            <p style="color: #888;">RESOLUTION: AT LEAST 640x480</p>
+            <p style="color: #888;">REQUIRED: WORKING EYEBALLS</p>
+            <br>
+
+            <div class="ascii-art" style="display: inline-block; font-size: 10px;">
+ ____  ____  ____  __    __  __  ___  __  _  _  ____
+(  _ \(  _ \(  _ \(  )  (  )(  )/ __)(  )( \( )/ ___)
+ )___/ )___/ )___/ )(__  )(__)(( (_-. )( |  \ | \___  \
+(__)  (__)  (__)  (____)(__)(__)\___)(__)|_|\_|(____/
+            </div>
+
+            <br><br>
+            <p style="color: #FF00FF; font-size: 20px;">© 2026 1337_PETE PRODUCTIONS</p>
+            <p style="color: #666;">ALL RIGHTS RESERVED (I WILL HACK U IF U STEAL MY CODE)</p>
+            <br>
+            <p style="color: #444; font-size: 14px;">MADE WITH: VIM, MOUNTAIN DEW, AND PURE GENIUS</p>
+            <p style="color: #444; font-size: 14px;">HOSTED ON: GITHUB PAGES (thx microsoft lol)</p>
+            <br>
+            <p style="color: #333; font-size: 11px;">
+                actually made by peter privitera |
+                <a href="https://github.com/privitera/ppplugins" style="color: #00FF00;">github</a>
+            </p>
+        </div>
+
+    </div><!-- end main-container -->
+
+    <script>
+        // ═══════════════════════════════════
+        // MATRIX RAIN (but in Comic Sans energy)
+        // ═══════════════════════════════════
+        function createMatrix() {
+            const container = document.getElementById('matrix-container');
+            const chars = 'PETE1337PLUGINSTATUSLINECLAUDETERMINAL';
+
+            for (let i = 0; i < 40; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = (i * 40) + 'px';
+                column.style.animationDuration = (6 + Math.random() * 12) + 's';
+                column.style.animationDelay = Math.random() * 6 + 's';
+                column.style.fontSize = (12 + Math.random() * 8) + 'px';
+
+                let text = '';
+                for (let j = 0; j < 60; j++) {
+                    text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+                }
+                column.innerHTML = text;
+                container.appendChild(column);
+            }
+        }
+        createMatrix();
+
+        // ═══════════════════════════════════
+        // COPY FUNCTION
+        // ═══════════════════════════════════
+        function copyCode(btn) {
+            const code = btn.parentElement.querySelector('code');
+
+            navigator.clipboard.writeText(code.textContent.trim()).then(() => {
+                btn.textContent = 'COPYED!!!!';
+                btn.style.background = '#00FF00';
+                btn.style.color = '#000';
+                btn.style.animation = 'spin 0.5s linear';
+
+                const msgs = [
+                    'GOOD JOB!!! UR ALMOST A 1337 HACKER LIKE ME!!!!',
+                    'U COPYED IT!!! NOW PASTE IT AND BECOME LEGENDARY!!!!',
+                    'EXCELLENT CLICKING SKILLS!!! UR MOM WOULD BE PROUD!!!!',
+                ];
+
+                if (Math.random() > 0.6) {
+                    alert(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                setTimeout(() => {
+                    btn.textContent = 'COPY';
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.style.animation = '';
+                }, 2500);
+            }).catch(() => {
+                // fallback
+                const ta = document.createElement('textarea');
+                ta.value = code.textContent.trim();
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                btn.textContent = 'COPYED!!!!';
+                setTimeout(() => { btn.textContent = 'COPY'; }, 2500);
+            });
+        }
+
+        // ═══════════════════════════════════
+        // MOUSE TRAIL
+        // ═══════════════════════════════════
+        const trailEmoji = ['⚡', '🔌', '💻', '✨', '🔥', '💯'];
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.92) {
+                const trail = document.createElement('div');
+                trail.className = 'mouse-trail';
+                trail.style.left = e.pageX + 'px';
+                trail.style.top = e.pageY + 'px';
+                trail.textContent = trailEmoji[Math.floor(Math.random() * trailEmoji.length)];
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 1000);
+            }
+        });
+
+        // ═══════════════════════════════════
+        // VISITOR COUNTER (very real, not fake)
+        // ═══════════════════════════════════
+        setInterval(() => {
+            const counter = document.getElementById('visitor-counter');
+            const base = 31337 + Math.floor(Math.random() * 100);
+            counter.textContent = 'VISITORS: ' + String(base).padStart(7, '0');
+        }, 3000);
+
+        // ═══════════════════════════════════
+        // POPUP TIMER
+        // ═══════════════════════════════════
+        setTimeout(() => {
+            document.getElementById('popup1').classList.add('visible');
+        }, 2500);
+
+        function closePopup(id) {
+            document.getElementById(id).classList.remove('visible');
+        }
+
+        // ═══════════════════════════════════
+        // GUESTBOOK
+        // ═══════════════════════════════════
+        function submitGuestbook(e) {
+            e.preventDefault();
+            const name = document.getElementById('gb-name').value || 'ANONYMOUS HACKER';
+            const resp = document.getElementById('gb-response');
+            resp.style.display = 'block';
+            resp.style.color = '#00FF00';
+            resp.style.fontSize = '20px';
+            resp.innerHTML = 'THANK U ' + name.toUpperCase() + '!!!! UR ENTRY HAS BEEN SAVED 2 MY FLOPPY DISK!!!! 💾';
+            document.getElementById('gb-name').value = '';
+            document.getElementById('gb-msg').value = '';
+        }
+
+        // ═══════════════════════════════════
+        // KONAMI CODE: type "pete"
+        // ═══════════════════════════════════
+        const secretCode = ['p','e','t','e'];
+        let secretIndex = 0;
+
+        document.addEventListener('keypress', (e) => {
+            if (e.key === secretCode[secretIndex]) {
+                secretIndex++;
+                if (secretIndex === secretCode.length) {
+                    document.body.style.animation = 'none';
+                    document.body.style.background = '#000';
+
+                    // PARTY MODE
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.9);';
+                    overlay.innerHTML = `
+                        <div style="text-align:center;font-family:Impact;color:#00FF00;text-shadow:0 0 20px #00FF00;">
+                            <div style="font-size:80px;animation:spin 1s linear infinite;">🔌</div>
+                            <h1 style="font-size:48px;margin:20px 0;">U FOUND TEH SECRET!!!!</h1>
+                            <p style="font-size:24px;color:#FF00FF;">UR NOW AN HONORARY MEMBER OF<br>1337_PETE'S INNER CIRCLE</p>
+                            <p style="font-size:18px;color:#FFFF00;margin-top:15px;">clearance level: MAXIMUM</p>
+                            <button onclick="this.parentElement.parentElement.remove()"
+                                style="margin-top:20px;padding:15px 30px;background:#00FF00;color:#000;border:none;font-size:20px;font-family:Impact;cursor:pointer;letter-spacing:3px;">
+                                I AM WORTHY
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(overlay);
+                    secretIndex = 0;
+                }
+            } else {
+                secretIndex = 0;
+            }
+        });
+
+        // ═══════════════════════════════════
+        // RANDOMIZED ASCII GLITCH EFFECT (from deployment page)
+        function createRandomGlitch() {
+            const existingStyle = document.getElementById('dynamic-glitch-style');
+            if (existingStyle) existingStyle.remove();
+
+            const style = document.createElement('style');
+            style.id = 'dynamic-glitch-style';
+
+            const mainGlitchFrames = [];
+            const glitch1Frames = [];
+            const glitch2Frames = [];
+            const percentages = [0, 15, 30, 45, 60, 75, 90, 100];
+
+            percentages.forEach(percent => {
+                if (percent === 0 || percent === 100) {
+                    mainGlitchFrames.push(`${percent}% { transform: translate(0); }`);
+                    glitch1Frames.push(`${percent}% { clip-path: inset(0 0 0 0); transform: translate(0); }`);
+                    glitch2Frames.push(`${percent}% { clip-path: inset(0 0 0 0); transform: translate(0); }`);
+                } else {
+                    if (Math.random() > 0.9) {
+                        const x = Math.floor(Math.random() * 4 - 2);
+                        const y = Math.floor(Math.random() * 4 - 2);
+                        mainGlitchFrames.push(`${percent}% { transform: translate(${x}px, ${y}px); }`);
+                    } else {
+                        mainGlitchFrames.push(`${percent}% { transform: translate(0); }`);
+                    }
+
+                    const top1 = Math.floor(Math.random() * 70);
+                    const bottom1 = Math.floor(Math.random() * 70);
+                    const top2 = Math.floor(Math.random() * 70);
+                    const bottom2 = Math.floor(Math.random() * 70);
+                    const x1 = Math.floor(Math.random() * 12 - 6);
+                    const x2 = Math.floor(Math.random() * 12 - 6);
+
+                    glitch1Frames.push(`${percent}% { clip-path: inset(${top1}% 0 ${bottom1}% 0); transform: translate(${x1}px); }`);
+                    glitch2Frames.push(`${percent}% { clip-path: inset(${top2}% 0 ${bottom2}% 0); transform: translate(${x2}px); }`);
+                }
+            });
+
+            const mainDuration = 3 + Math.random() * 2;
+            const beforeDuration = 0.4 + Math.random() * 0.3;
+            const afterDuration = 0.4 + Math.random() * 0.3;
+
+            style.textContent = `
+                @keyframes glitch-main { ${mainGlitchFrames.join('\n')} }
+                @keyframes glitch-1 { ${glitch1Frames.join('\n')} }
+                @keyframes glitch-2 { ${glitch2Frames.join('\n')} }
+                .glitch-title { animation: glitch-main ${mainDuration}s infinite ease-in-out; }
+                .glitch-title::before { animation: glitch-1 ${beforeDuration}s infinite; }
+                .glitch-title::after { animation: glitch-2 ${afterDuration}s infinite; }
+            `;
+
+            document.head.appendChild(style);
+        }
+
+        createRandomGlitch();
+        setInterval(() => { createRandomGlitch(); }, 2000 + Math.random() * 3000);
+
+        // CONSOLE MESSAGES
+        // ═══════════════════════════════════
+        console.log('%c1337_PETE\'S PLUGINZ EMPORIUM', 'color: #00FF00; font-size: 40px; font-weight: bold; text-shadow: 3px 3px 0 #FF00FF; background: #000; padding: 20px;');
+        console.log('%cIF U CAN READ THIS U R ALREADY 50%% HACKER!!!!', 'color: #FFFF00; font-size: 20px; background: #000; padding: 10px;');
+        console.log('%ctype "pete" on the page 4 a surprise :)', 'color: #888; font-size: 14px;');
+
+        // ═══════════════════════════════════
+        // TAB TITLE SHENANIGANS
+        // ═══════════════════════════════════
+        const originalTitle = document.title;
+        window.addEventListener('blur', () => {
+            document.title = 'COME BACK!!!! MY PLUGINS MISS U!!!!';
+        });
+        window.addEventListener('focus', () => {
+            document.title = originalTitle;
+        });
+    </script>
+</body>
+</html>
