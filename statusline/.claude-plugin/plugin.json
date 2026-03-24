@@ -1,0 +1,15 @@
+{
+    "name": "statusline",
+    "description": "Custom status line for Claude Code with context window progress bar, token counts, and git info",
+    "author": {
+        "name": "1337_Pete",
+        "url": "https://privitera.github.io/ppplugins/"
+    },
+    "homepage": "https://privitera.github.io/ppplugins/",
+    "repository": "https://github.com/privitera/ppplugins",
+    "license": "MIT",
+    "keywords": ["statusline", "terminal", "context-window", "usage", "limits"],
+    "commands": [
+        "./commands/setup.md"
+    ]
+}

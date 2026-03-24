@@ -1,0 +1,18 @@
+{
+    "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+    "name": "ppplugins",
+    "homepage": "https://privitera.github.io/ppplugins/",
+    "owner": {
+        "name": "Peter Privitera"
+    },
+    "plugins": [
+        {
+            "name": "statusline",
+            "source": "./statusline",
+            "description": "Custom status line with context window progress bar, token counts, and git info",
+            "homepage": "https://privitera.github.io/ppplugins/",
+            "keywords": ["statusline", "terminal", "context-window", "usage", "limits"],
+            "category": "terminal"
+        }
+    ]
+}
