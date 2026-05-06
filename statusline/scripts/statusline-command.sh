@@ -29,6 +29,9 @@ eval "$(echo "$input" | jq -r '
   @sh "input_tokens=\(.context_window.current_usage.input_tokens // 0)",
   @sh "cache_create=\(.context_window.current_usage.cache_creation_input_tokens // 0)",
   @sh "cache_read=\(.context_window.current_usage.cache_read_input_tokens // 0)",
+  @sh "agent_name=\(.agent.name // "")",
+  @sh "agent_type=\(.agent_type // "")",
+  @sh "transcript_path=\(.transcript_path // "")",
   @sh "usage_is_null=\(if .context_window.current_usage == null then "1" else "0" end)"
 ')"
 
@@ -366,6 +369,9 @@ if [ -n "$CACHE_FILE" ] && [ -n "$fresh_current" ] && [ -n "$fresh_size" ]; then
             echo "c_git_org=$git_org"
             echo "c_project=$project"
             echo "c_branch=$branch"
+            echo "c_agent_name=$agent_name"
+            echo "c_agent_type=$agent_type"
+            echo "c_transcript_path=$transcript_path"
         } > "$CACHE_TMP"
         mv "$CACHE_TMP" "$CACHE_FILE" 2>/dev/null
     } &
